@@ -5,7 +5,7 @@ const app=express();
 const port=8000;
 
 
-//use e(xpress router
+//use express router:-we are telling here that any request comes in is handeled by this route
 app.use('/',require('./routes/index'));//i can write just './routes' also because it by default fetches index
 
 app.listen(port,function(err){
