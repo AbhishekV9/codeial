@@ -7,6 +7,13 @@ const expressLayouts=require('express-ejs-layouts');//we got our library now we 
 //required our routes
 app.use(expressLayouts);
 
+//putting styles and scripts from sub pages to layout...css tag in layouts head part and script tag just above body end in layouts
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true);
+
+
+
+app.use(express.static('./assets'));
 
 //use express router:-we are telling here that any request comes in is handeled by this route
 app.use('/',require('./routes/index'));//i can write just './routes' also because it by default fetches index
