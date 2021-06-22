@@ -18,4 +18,8 @@ const userSchema=new mongoose.Schema({
 },{
     timestamps:true //timestamps is creted at and updated at....so db will store when the user has signed up and whenever the user
     //updates its name etc...iw will be also stored in db
-})
+});
+
+const user=mongoose.model('user',userSchema); //telling mongoose that this is the model
+
+module.exports=user;

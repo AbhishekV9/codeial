@@ -1,11 +1,14 @@
 //it handles routes of users
 
 const express=require('express');
+const { route } = require('.');
 const router=express.Router();
 
 const userController=require('../controllers/users_controller');
 router.get('/Profile',userController.profile);
 router.get('/Post',userController.post);
+router.get('/sign-up',userController.signUp);
+router.get('/sign-in',userController.signIn);
 
 
 module.exports=router;
