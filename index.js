@@ -5,6 +5,7 @@ const app=express();
 const port=8000;
 const expressLayouts=require('express-ejs-layouts');//we got our library now we need to tell our app to use it...before we have
 //required our routes
+const db=require('./config/mongoose');
 app.use(expressLayouts);
 
 //putting styles and scripts from sub pages to layout...css tag in layouts head part and script tag just above body end in layouts
