@@ -1,5 +1,9 @@
 //calling it as users controller because this controller will handle multiple users
 
+const User=require("../models/user");//requiring models
+
+
+
 module.exports.profile=function(req,res){
   //  res.end('<h1>User"s Profile</h1>'); sending it directly to the browser
 
@@ -28,7 +32,29 @@ module.exports.signIn=function(req,res){
 
 //get the sign up data
 module.exports.create=function(req,res){
-  //TODO LATER
+    if(req.body.password != req.body.confirm_password){
+      return res.redirect('back');
+     }
+
+     User.findOne({email:req.body.email},function(err,user){ //finding email that it exist already or not
+        if(err){
+          console.log("error in finding user in signing up");
+          return;
+        }
+
+        if(!user){ //if user dosent exist then
+            User.create(req.body,function(err,user){
+                if(err){
+                  console.log("error in creating user while signing up");
+                  return;
+                }
+                return res.redirect('/users/sign-in');
+          });
+        }else{  //if user already exist
+          return res.redirect('back');
+        }
+
+     });
 }
 
 //sign in and create the session for the user

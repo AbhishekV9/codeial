@@ -1,11 +1,18 @@
 //first file to be created 
 
 const express=require('express');
+const cookieParser=require('cookie-parser')//requiring cookie parser for reading and writing into the cookies
 const app=express();
 const port=8000;
 const expressLayouts=require('express-ejs-layouts');//we got our library now we need to tell our app to use it...before we have
 //required our routes
 const db=require('./config/mongoose');
+
+app.use(express.urlencoded());
+
+app.use(cookieParser());
+
+app.use(express.static('./assets'));
 app.use(expressLayouts);
 
 //putting styles and scripts from sub pages to layout...css tag in layouts head part and script tag just above body end in layouts
@@ -14,7 +21,6 @@ app.set('layout extractScripts',true);
 
 
 
-app.use(express.static('./assets'));
 
 //use express router:-we are telling here that any request comes in is handeled by this route
 app.use('/',require('./routes/index'));//i can write just './routes' also because it by default fetches index
