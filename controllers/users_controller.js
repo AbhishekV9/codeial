@@ -18,6 +18,12 @@ module.exports.post=function(req,res){
 
 //render the sign up page
 module.exports.signUp=function(req,res){
+  if(req.isAuthenticated()){
+    return res.redirect('/users/profile'); //if user is signed in then he can not go to sign up page
+  }
+
+
+
   return res.render('user_sign_up',{
     title:'Codieal | Sign Up'
   });
@@ -25,6 +31,13 @@ module.exports.signUp=function(req,res){
 
 //render the sign in page
 module.exports.signIn=function(req,res){
+
+  if(req.isAuthenticated()){
+    return res.redirect('/users/profile'); //if user is signed in then he can not go to sign in page
+  }
+
+
+
   return res.render('user_sign_in',{
     title:'Codieal | Sign In'
   });
@@ -59,5 +72,14 @@ module.exports.create=function(req,res){
 
 //sign in and create the session for the user
 module.exports.createSession=function(req,res){
-  //TODO LATER
+  //when passport.js uses a function i.e local strategy to authenticate the user,the control comes over here and this redirects to 
+  //the homepage
+  res.redirect('/');
+  //session is created in passport.js itself
+}
+
+module.exports.destroySession=function(req,res){
+  req.logout();//this function is given to request using passport.js
+
+  res.redirect('/');
 }

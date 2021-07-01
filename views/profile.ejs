@@ -1,22 +1,12 @@
-<!-- <html>
-    <head>
-        <title>
-            <%= title %>
-        </title>
-    </head>
-    <body> 
-        <%- include("_header") -%>  -->
-        <!-- implimenting partial concept -->
+
 
         <link rel="stylesheet" href="/css/user_profile.css">   
         <!-- this link tag will be placed inside the body and not in head so we have solved this problem by using app.set()
              in index -->
         
         <h1>User's profile</h1>
+        <p><%= user.name%></p>
+        <p><%= user.email%></p>
 
 
-        <!-- <%- include("_footer") -%> -->
-       <!-- implimenting partial concept -->
-     
-    <!-- </body>
-</html> -->
+        
