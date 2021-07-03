@@ -1,0 +1,17 @@
+#footer-content {
+  background-image: linear-gradient(#000428, #004e92);
+  display: flex;
+  align-content: flex-start;
+  height: 50px;
+  color: white; }
+  #footer-content p {
+    font-weight: 500;
+    font-size: 15px; }
+  #footer-content #options {
+    display: flex;
+    margin-top: -10px; }
+    #footer-content #options ul {
+      list-style: none; }
+      #footer-content #options ul li a {
+        color: white;
+        text-decoration: none; }

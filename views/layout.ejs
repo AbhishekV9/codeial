@@ -4,6 +4,8 @@
             <%= title %>
         </title>
         <link rel="stylesheet" href="/css/layout.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/footer.css">
         <%- style %>
         <!-- telling where to place style tag in layouts -->
     </head>
@@ -12,9 +14,11 @@
         <%- include("_header") -%> 
         <!-- implimenting partial concept -->
       
-        <%- body -%> 
-        <!-- telling where the variable part will be -->
-        <!-- so whatever file my controller is rendering will be filled here-->
+       <main id="layout-main">
+            <%- body -%> 
+            <!-- telling where the variable part will be -->
+            <!-- so whatever file my controller is rendering will be filled here-->
+       </main>
 
         <%- include("_footer") -%>
         <!-- implimenting partial concept -->
