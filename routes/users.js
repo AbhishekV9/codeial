@@ -1,7 +1,7 @@
 //it handles routes of users
 
 const express=require('express');
-const { route } = require('.');
+//const { route } = require('.');
 const router=express.Router();
 const passport=require('passport');
 
