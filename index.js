@@ -3,7 +3,7 @@
 const express=require('express');
 const cookieParser=require('cookie-parser')//requiring cookie parser for reading and writing into the cookies
 const app=express();
-const port=8000;
+const port=8000;  
 const expressLayouts=require('express-ejs-layouts');//we got our library now we need to tell our app to use it...before we have
 //required our routes
 const db=require('./config/mongoose');

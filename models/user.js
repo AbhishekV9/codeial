@@ -20,6 +20,6 @@ const userSchema=new mongoose.Schema({
     //updates its name etc...iw will be also stored in db
 });
 
-const user=mongoose.model('user',userSchema); //telling mongoose that this is the model
+const User=mongoose.model('User',userSchema); //telling mongoose that this is the model
 
-module.exports=user;
+module.exports=User;
