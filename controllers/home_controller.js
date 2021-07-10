@@ -25,7 +25,15 @@ module.exports.home=function(req,res){   //we are exporting this home function
 
 
     //we are finding all the posts and populating user of each post. we need to write callback function inside exec function.
-    Post.find({}).populate('user').exec(function(err,posts){
+    Post.find({})
+    .populate('user')
+    .populate({
+        path:'comments',
+        populate:{
+            path:'user'
+        }
+    })
+    .exec(function(err,posts){
 
         return res.render('home',{                 
             title:'Codiel | Home',        
