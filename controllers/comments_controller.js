@@ -27,6 +27,23 @@ module.exports.create=function(req,res){
         }
 
     }) ;
+}
 
+module.exports.destroy=function(req,res){
+    Comment.findById(req.params.id,function(err,comment){
+        if(comment.user==req.user.id){
+            let postId=comment.post;
+            comment.remove();
+            Post.findByIdAndUpdate(postId,{ $pull:{comments:req.params.id}},function(err,post){
+            // i will find it by post id so thats the first argument and secondly i need to pull out comment id from
+            // the list of comments in post so second argument is inbuilt function through wich i will pull it out
 
+            //in 2nd argument i have to pull and from where so that's comments,and what do we need to pull so that's
+            // the comment id
+                return res.redirect('back');
+            });
+        }else{
+            return res.redirect('back');
+        }
+    });
 }
