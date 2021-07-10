@@ -7,7 +7,7 @@ const passport=require('passport');
 
 const userController=require('../controllers/users_controller');
 
-router.get('/Profile',passport.checkAuthentication,userController.profile);
+router.get('/Profile/:id',passport.checkAuthentication,userController.profile);
 //if authentication is checked then only the profile page will be accessible
 
 

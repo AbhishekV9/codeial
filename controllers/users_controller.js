@@ -7,9 +7,16 @@ const User=require("../models/user");//requiring models
 module.exports.profile=function(req,res){
   //  res.end('<h1>User"s Profile</h1>'); sending it directly to the browser
 
-  return res.render('profile',{
-    title:'User Profile'
-  });
+  User.findById(req.params.id,function(err,user){
+    return res.render('profile',{
+      title:'User Profile',
+      profile_user:user
+    });
+
+  })
+  // return res.render('profile',{
+  //   title:'User Profile'
+  // });
 };
 
 module.exports.post=function(req,res){

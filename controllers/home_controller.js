@@ -1,5 +1,5 @@
 const Post = require('../models/post');
- 
+const User = require('../models/user');
 
 //module.exports.actionName=function(req,res){
 
@@ -34,12 +34,20 @@ module.exports.home=function(req,res){   //we are exporting this home function
         }
     })
     .exec(function(err,posts){
-
-        return res.render('home',{                 
-            title:'Codiel | Home',        
-            posts:posts                  
-
+        //we need to find all the users to show thenm on home page
+        User.find({},function(err,users){
+            return res.render('home',{                 
+                title:'Codiel | Home',        
+                posts:posts,              
+                all_users:users
+            });
         });
+
+        // return res.render('home',{                 
+        //     title:'Codiel | Home',        
+        //     posts:posts                  
+
+        // });
 
     });
 
