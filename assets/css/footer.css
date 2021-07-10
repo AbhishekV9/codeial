@@ -1,4 +1,5 @@
 #footer-content {
+  margin-top: 50px;
   background-image: linear-gradient(#000428, #004e92);
   display: flex;
   align-content: flex-start;

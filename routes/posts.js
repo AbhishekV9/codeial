@@ -8,4 +8,6 @@ router.post('/create',passport.checkAuthentication,postController.create); //2nd
 //can create post only if you are authenticated and 1st level check is in home .ejs  
 //showing form only to the user who is authenticated
 
+router.get('/destroy/:id',passport.checkAuthentication,postController.destroy);
+
 module.exports=router;
