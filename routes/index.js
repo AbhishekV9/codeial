@@ -9,6 +9,7 @@ router.use('/users',require('./users'));//whenever the request is for users,when
 // you can just require my neighbour wich is users.any thing other than /users will be forwarded to home controller
 
 router.use('/posts',require('./posts'));
+router.use('/comments',require('./comments'));
 
 module.exports=router;//i need to export this to be available to index.js where i will use it and in index.js we need
  //to tell app to use it remeber we use to use app.get, app.post so we need to tell app that all the get post and 
