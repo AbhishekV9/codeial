@@ -19,6 +19,20 @@ module.exports.profile=function(req,res){
   // });
 };
 
+module.exports.update=function(req,res){
+  if(req.user.id==req.params.id){
+    User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+       //first parameter is the id wich i want to update and the second parameter is the content i want to change
+       //i can write second arg as {name:req.body.name,email:req.body.email} also.
+
+      return res.redirect('back');
+    });
+   
+  }else{
+    return res.status(401).send('unauthorized');
+  }
+}
+
 module.exports.post=function(req,res){
     res.end("<h1>User's post</h1>")
 };
