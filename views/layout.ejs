@@ -13,6 +13,14 @@
         
         <%- include("_header") -%> 
         <!-- implimenting partial concept -->
+
+        <% if(flash.success && flash.success.length > 0){ %>
+<!-- above we are checking if locals has a flash and flash.success has a message                         -->
+            <h5>
+               <%= flash.success %>
+            </h5> 
+                      
+        <% } %>
       
        <main id="layout-main">
             <%- body -%> 

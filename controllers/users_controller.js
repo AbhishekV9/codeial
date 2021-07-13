@@ -93,14 +93,18 @@ module.exports.create=function(req,res){
 
 //sign in and create the session for the user
 module.exports.createSession=function(req,res){
+  req.flash('success','Logged in Sucessfully');
   //when passport.js uses a function i.e local strategy to authenticate the user,the control comes over here and this redirects to 
   //the homepage
-  res.redirect('/');
+  return res.redirect('/');
   //session is created in passport.js itself
 }
 
 module.exports.destroySession=function(req,res){
   req.logout();//this function is given to request using passport.js
 
-  res.redirect('/');
+  req.flash('success','You have Logged Out!');//this is on the request what we are sending back is the response so
+  //this messgae needs to transfer to the response,one thing we can do is pass them into the locals every time
+  //like res.redirect('/',{flash:{sucess,"some message"}}); but we will not do this we will create our own middleware
+  return res.redirect('/');
 }

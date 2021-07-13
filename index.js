@@ -13,6 +13,8 @@ const passportLocal=require('./config/passport-local-strategy');
 const MongoStore=require('connect-mongo')(session); //this library requires an argument wich is the express session
 // const MongoStore =require('connect-mongo').default; newer version
 const sassMiddleware=require('node-sass-middleware');//requiring sass
+const flash=require('connect-flash');//requiring flash
+const customMware=require('./config/middleware');
 
 
 app.use(sassMiddleware({ //use it just before the server is starting because i need those files to be precompiled before the server starts
@@ -99,6 +101,8 @@ app.use(passport.initialize());
 app.use(passport.session()); //passport also helps in maintaining session
 
 app.use(passport.setAuthenticatedUser); //it will check wether a session cookie is present or not
+app.use(flash());//using flash just after using session
+app.use(customMware.setFlash);
 
 //use express router:-we are telling here that any request comes in is handeled by this route
 app.use('/',require('./routes/index'));//i can write just './routes' also because it by default fetches index
