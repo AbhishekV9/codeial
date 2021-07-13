@@ -1,55 +1,30 @@
 const Post = require('../models/post');
 const User = require('../models/user');
 
-//module.exports.actionName=function(req,res){
+//code after async await lecture:-
 
-//}
-
-module.exports.home=function(req,res){   //we are exporting this home function
-    // res.end('<h1>Express is up for codial</h1>'); here we are sending directly something to the browser
-
-//  console.log(req.cookies); accessing the cookies
-
-//  res.cookie('user_id',25); changing the value of cookies from server side
-
-    // Post.find({},function(err,posts){
-
-
-    //     return res.render('home',{                  //sending a html file to browser
-    //         title:'Codiel | Home',        
-    //         posts:posts                  
-
-    //     });
-
-    // });
-
-
-    //we are finding all the posts and populating user of each post. we need to write callback function inside exec function.
-    Post.find({})
-    .populate('user')
-    .populate({
-        path:'comments',
-        populate:{
-            path:'user'
-        }
-    })
-    .exec(function(err,posts){
-        //we need to find all the users to show thenm on home page
-        User.find({},function(err,users){
-            return res.render('home',{                 
-                title:'Codiel | Home',        
-                posts:posts,              
-                all_users:users
-            });
+module.exports.home=async function(req,res){  
+    try{
+        let posts=await Post.find({}) //by writing await we are telling to wait before moving to next one means
+        .populate('user')           //first exectute it then goto next part.
+        .populate({
+            path:'comments',   
+            populate:{         
+                path:'user'     
+            }
         });
+   
+       let users=await User.find({});
+       
+       return res.render('home',{             //once both awited function are executed then we will return something    
+               title:'Codiel | Home',         //to the browser
+               posts:posts,              
+               all_users:users
+           });
 
-        // return res.render('home',{                 
-        //     title:'Codiel | Home',        
-        //     posts:posts                  
+    }catch(err){
+        console.log('Error',err);
+        return;
+    }
 
-        // });
-
-    });
-
-  
 }
