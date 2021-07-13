@@ -8,9 +8,10 @@ const User=require('../models/user');
 //we need to tell passport to use the local strategy that we have created
 passport.use(new LocalStrategy({
     //define syntax
-    usernameField: 'email'  //email is defined on schema
+    usernameField: 'email',  //email is defined on schema
+    passReqToCallback:true //this basically allows us to set first argument of callback fn as req so that we can use flash messsage through req
     },
-    function(email,password,done){     //callback function inside localstrategy
+    function(req,email,password,done){     //callback function inside localstrategy
     
         //done is another function which is inbuilt to passport...it reports back to passport and isntead of word done
         //we can use any other word for callbackfunction to the passport
@@ -25,13 +26,15 @@ passport.use(new LocalStrategy({
             //first email is the value we are looking for in db
             //second email is tha value that is passed
             if(err){
-                console.log('Error in finding user--> Passport');
+               // console.log('Error in finding user--> Passport');
+               req.flash('error',err);
                 return done(err);//this will report an error to passport
                 //done takes the two argument first error and second is something else here we will go with one argment err only
             }
 
             if(!user || user.password!=password){//if user is not found or password entered is incorrect then
-                console.log('invalid username/password');
+               //console.log('invalid username/password');
+               req.flash('error','Invalid Username/Password');
                 return done(null,false);
                 //if there is error send null and authentication is not done so pass false as second argument
             }
