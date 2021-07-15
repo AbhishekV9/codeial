@@ -5,8 +5,9 @@ const User = require('../models/user');
 
 module.exports.home=async function(req,res){  
     try{
-        let posts=await Post.find({}) //by writing await we are telling to wait before moving to next one means
-        .populate('user')           //first exectute it then goto next part.
+        let posts=await Post.find({}) //by writing await we are telling to wait before moving to next one means first exectute it then goto next part.
+        .sort('-createdAt')
+        .populate('user')           
         .populate({
             path:'comments',   
             populate:{         
