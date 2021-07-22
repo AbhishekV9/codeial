@@ -7,6 +7,7 @@
         newPostForm.submit(function(e){
             e.preventDefault();//now submit button will not work natually
             //submiting it manually through ajax
+            
             $.ajax({
                 type:'post', //it is a post request
                 url:'/posts/create',
@@ -16,6 +17,18 @@
                     let newPost=newPostDom(data.data.post);
                     $("#posts-list-container>ul").prepend(newPost); //prepend means appending at the start of the list
                     deletePost($(' .delete-post-button',newPost));
+
+                    //calling postcomments class in home_post_comments.js
+                    new PostComments(data.data.post._id);
+
+                    new Noty({
+                        theme: 'relax',
+                        text: "Post published!",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
                 },error: function(error){
                     console.log(error.responseText);
                 }
@@ -43,7 +56,7 @@
                     </p>
                     <div class="post-comments">
                         
-                            <form action="comments/create" method="POST">
+                            <form id="post-${ post._id }-comments-form"  action="comments/create" method="POST">
                                     <input type="text" name="content" placeholder="type here to add comment..." required>
                                     <!-- sending the id of the post to wich i need to add comment -->
                                     <input type="hidden" name="post" value="${post._id}">
@@ -64,12 +77,20 @@
     let deletePost = function(deleteLink){
         $(deleteLink).click(function(e){
             e.preventDefault();
-
+            
             $.ajax({
                 type: 'get',
                 url: $(deleteLink).prop('href'), //this is how you get the value of href
                 success: function(data){
                     $(`#post-${data.data.post_id}`).remove();
+                    new Noty({
+                        theme: 'relax',
+                        text: "Post Deleted",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
                 },error: function(error){
                     console.log(error.responseText);
                 }
@@ -78,8 +99,23 @@
         });
     }
 
+    let convertPostsToAjax = function(){
+        $('#posts-list-container>ul>li').each(function(){
+            let self = $(this);
+            let deleteButton = $(' .delete-post-button', self);
+            deletePost(deleteButton);
+
+            // get the post's id by splitting the id attribute
+            let postId = self.prop('id').split("-")[1] //prop is used to access property
+            console.log(postId);
+            
+            new PostComments(postId);
+           
+        });
+    }
 
     createPost();
+    convertPostsToAjax();
   
 }
 

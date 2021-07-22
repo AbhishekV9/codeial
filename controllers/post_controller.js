@@ -9,9 +9,14 @@ module.exports.create= async function(req,res){
             //in config and there we have --- res.locals.user=req.user. this set the authenticated user so we can get id by
             //using this line
         });
+        
         //we need to check if the request is an ajax request,now the type of ajax requet is xml http request(xhr) then i need to return some json
         if(req.xhr){
             //we return json with status
+           
+            // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+            post = await post.populate('user', 'name').execPopulate();
+            
             return res.status(200).json({
                 data:{
                     post:post

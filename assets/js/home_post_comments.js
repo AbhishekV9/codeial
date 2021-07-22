@@ -1,19 +1,96 @@
-{
-    let createComment=function(){
-        let newCommentForm=$(' .post-comments');
-        newCommentForm.submit(function(e){
-            e.preventDefault();
 
-            // $.ajax({
-            //     type='post',
-            //     url:'comments/create',
-            //     data:newCommentForm.serialize(),
-            //     success:function(data){
-            //         console.log(data);
-            //     },error(data){
-            //         console.log(error.responseText);
-            //     }
-            // });
-        });
+    class PostComments{
+        constructor(postId){
+           
+            this.postId = postId;
+            this.postContainer = $(`#post-${postId}`);
+            this.newCommentForm = $(`#post-${postId}-comments-form`);
+          
+            this.createComment(postId);//call createcomment in current object means in current post
+            
+            let self = this;
+            // call for all the existing comments
+            $(' .delete-comment-button', this.postContainer).each(function(){
+                self.deleteComment($(this));
+                console.log('hi');
+            });
+            
+        }
+
+        createComment(postId){
+            
+            let pSelf=this;
+            this.newCommentForm.submit(function(e){
+              console.log("hiiii");
+                e.preventDefault();
+                let self =this;
+                $.ajax({
+                    type:'post',
+                    url:'/comments/create',
+                    data:$(self).serialize(),
+                    success:function(data){
+                        let newComment=pSelf.newCommentDom(data.data.comment);
+                        $(`#post-comments-${postId}`).prepend(newComment);
+                        pSelf.deleteComment($(' .delete-comment-button',newComment));
+                        new Noty({
+                            theme: 'relax',
+                            text: "Comment published!",  //writing full noty code because we cannot go form 
+                            type: 'success',             //frontend to middleware
+                            layout: 'topRight',
+                            timeout: 1500
+                            
+                        }).show();
+                    },error:function(error){
+                        console.log(error.responseText);
+                    }
+                });
+            });
+        }
+
+        newCommentDom=function(comment){
+            return $(`<li id="comment-${ comment._id }" >
+                    <p> 
+                            <small>
+                            <a class="delete-comment-button" href="/comments/destroy/${comment._id}">X</a>
+                            </small>
+                        
+                    ${comment.content}
+                    <br>
+                    <small>
+                        ${comment.user.name}
+                    </small> 
+                    </p>
+                </li>    `)
+        }
+
+        deleteComment(deleteLink){
+            $(deleteLink).click(function(e){
+                e.preventDefault();
+                console.log(deleteLink);
+    
+                $.ajax({
+                    type: 'get',
+                    url: $(deleteLink).prop('href'),
+                    success: function(data){
+                   
+                      $(`#comment-${data.data.comment_id}`).remove();
+
+                      new Noty({
+                        theme: 'relax',
+                        text: "Comment Deleted",
+                        type: 'success',
+                        layout: 'topRight',
+                        timeout: 1500
+                        
+                    }).show();
+                    },error: function(error){
+                        console.log(error.responseText);
+                    }
+                });
+    
+            });
+        }
     }
-}
+
+
+
