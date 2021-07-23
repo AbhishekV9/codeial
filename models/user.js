@@ -1,4 +1,8 @@
 const mongoose=require('mongoose');
+const multer=require('multer');
+//we require path to set up where the file has stored
+const path=require('path');
+const AVATAR_PATH=path.join('/uploads/users/avatars');
 
 const userSchema=new mongoose.Schema({
     email:{
