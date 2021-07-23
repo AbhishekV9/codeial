@@ -24,6 +24,15 @@ const userSchema=new mongoose.Schema({
     //updates its name etc...iw will be also stored in db
 });
 
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) { //cb is a callback function
+      cb(null,path.join(__dirname,'..',AVATAR_PATH));
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+  })
+
 const User=mongoose.model('User',userSchema); //telling mongoose that this is the model
 
 module.exports=User;
