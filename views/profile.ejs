@@ -2,7 +2,8 @@
 <!-- this link tag will be placed inside the body and not in head so we have solved this problem by using app.set()
      in index -->
 
-<h1>User's profile</h1>
+ <!-- browser is not able to find image by only this so write some code on index.js -->
+<img src="<%= user.avatar %>" alt="<%= user.name %>" width="100">
 
 <% if(user.id==profile_user.id){ %> 
  <!-- if user matches then show updation form  -->

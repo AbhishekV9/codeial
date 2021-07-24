@@ -30,6 +30,10 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 
 app.use(express.static('./assets'));
+
+//make the uploads path availaible to the browser
+app.use('/uploads',express.static(__dirname + '/uploads'));//the directory of index is joined with uploads which means
+//codial/uploads is available directly with /uploads
 app.use(expressLayouts);
 
 //putting styles and scripts from sub pages to layout...css tag in layouts head part and script tag just above body end in layouts

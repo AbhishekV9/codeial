@@ -19,7 +19,7 @@ const userSchema=new mongoose.Schema({
         required:true //whenever the user will signup it will require the user name
     },
     avatar:{
-        type:String
+        type:String//the database just stores the path of the file not the complete file
     }
 
 },{
@@ -38,7 +38,7 @@ let storage = multer.diskStorage({
 
   //static methods 
   userSchema.statics.uploadedAvatar=multer({storage : storage}).single('avatar');
-//.single tells that only one file will be uploaded for the feildname avatar not multiple files
+//.single tells that only one file will be uploaded for the feildname avatar not multiple files and this uploadAvatar uses above multer storage
 userSchema.statics.avatarPath= AVATAR_PATH;
 //just making avatar path publically available
 
