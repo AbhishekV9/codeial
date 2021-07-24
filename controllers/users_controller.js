@@ -19,18 +19,50 @@ module.exports.profile=function(req,res){
   // });
 };
 
-module.exports.update=function(req,res){
-  if(req.user.id==req.params.id){
-    User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-       //first parameter is the id wich i want to update and the second parameter is the content i want to change
-       //i can write second arg as {name:req.body.name,email:req.body.email} also.
+module.exports.update= async function(req,res){
+  // if(req.user.id==req.params.id){
+  //   User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+  //      //first parameter is the id wich i want to update and the second parameter is the content i want to change
+  //      //i can write second arg as {name:req.body.name,email:req.body.email} also.
 
-      return res.redirect('back');
-    });
+  //     return res.redirect('back');
+  //   });
    
-  }else{
-    return res.status(401).send('unauthorized');
-  }
+  // }else{
+  //   return res.status(401).send('unauthorized');
+  // }
+
+//converting upper code into async await because we are adding avatar feature now
+      if(req.user.id==req.params.id){
+        try{
+          let user= await User.findByIdAndUpdate(req.params.id);
+          //once i get the user i need to update but when i want to access the body params in the form, i won't be able to 
+          //access it directly from req.params because it is a multipart form so my boy parser is not able to parse it.
+          //the staic function uploadedAvatar in models/users.js will help us to do this 
+          User.uploadedAvatar(req,res,function(err){
+             if(err){
+               console.log('multer error',err);
+             }
+            // console.log(req.file);
+            user.name=req.body.name;
+            user.email=req.body.email;
+            if(req.file){
+              //this is saving the path of the uploaded file into the avatar feild in the user
+              user.avatar=User.avatarPath + '/' + req.file.filename;
+            }
+            user.save;
+            res.redirect('back');
+          });
+        }catch(err){
+          req.flash('error',err);
+          return res.redirect('back');
+        }
+
+        }else{
+          req.flash('error','unauthorized');
+          return res.status(401).send('unauthorized');
+        }
+
 }
 
 module.exports.post=function(req,res){
