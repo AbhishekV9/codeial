@@ -1,6 +1,9 @@
 //calling it as users controller because this controller will handle multiple users
 
 const User=require("../models/user");//requiring models
+//required both for deletion of avatar
+const fs=require('fs'); 
+const path=require('path');
 
 
 
@@ -47,6 +50,15 @@ module.exports.update= async function(req,res){
             user.name=req.body.name;
             user.email=req.body.email;
             if(req.file){
+              if(user.avatar){
+                fs.access(path.join(__dirname,'..',user.avatar), (err) => {
+                  if (err) {
+                      console.log('no avatar is present');
+                  } else {
+                    fs.unlinkSync(path.join(__dirname,'..',user.avatar)); //used to remove a file:-so we are removing preivous avatar and kepping new one
+                  }
+              }); 
+              }
               //this is saving the path of the uploaded file into the avatar feild in the user
               user.avatar=User.avatarPath + '/' + req.file.filename;
             }
