@@ -10,6 +10,7 @@ const db=require('./config/mongoose');
 const session=require('express-session'); //used for session cookie
 const passport=require('passport');//both lines are used for passport Authentication
 const passportLocal=require('./config/passport-local-strategy');
+const passportJWT=require('./config/passport-jwt-strategy');
 const MongoStore=require('connect-mongo')(session); //this library requires an argument wich is the express session
 // const MongoStore =require('connect-mongo').default; newer version
 const sassMiddleware=require('node-sass-middleware');//requiring sass
